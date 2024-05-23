@@ -1,0 +1,5 @@
+pyserial
+colorama
+limepy
+pyft4222
+matplotlib
