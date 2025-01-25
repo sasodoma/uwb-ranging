@@ -1,8 +1,12 @@
-# UWB Ranging with DWM3001CDK and Pixel 8 Pro
-This repository contains basic code required to do ranging between the Qorvo DWM3001CDK and an Android phone (tested on Google Pixel 8 Pro). There is no Bluetooth implementation, out-of-band communication is done manually and the DWM3001CDK needs to be connected to a computer via USB to start ranging.
+# UWB Ranging with DWM3001CDK and Android
+This repository contains basic code required to do ranging between the Qorvo DWM3001CDK and an Android phone. There is no Bluetooth implementation, out-of-band communication is done manually and the DWM3001CDK needs to be connected to a computer via USB to start ranging.
 
 ## Android app
 The `android_app` directory contains a simple UWB project that is capable of starting and stopping a ranging session and displaying the resulting data.
+
+Tested on:
+- Pixel 8 Pro
+- Pixel 9 Pro
 
 ## Python script
 The `python_script` directory contains a copy of the script found in the [DWM3001CDK DK Software, Sources, Tools and Developer Guide.zip](https://www.qorvo.com/products/d/da008604) archive provided by Qorvo. It is modified slightly to work with Android. The modifications are listed below:
