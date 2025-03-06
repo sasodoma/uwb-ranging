@@ -9,7 +9,7 @@ Tested on:
 - Pixel 9 Pro
 
 ## Python script
-The `python_script` directory contains a copy of the script found in the [DWM3001CDK DK Software, Sources, Tools and Developer Guide.zip](https://www.qorvo.com/products/d/da008604) archive provided by Qorvo. It is modified slightly to work with Android. The modifications are listed below:
+The `python_script` directory contains a copy of the script found in the [DWM3001CDK DK Software, Sources, Tools and Developer Guide.zip](https://github.com/sasodoma/uwb-ranging/releases/tag/v1.0.1) archive provided by Qorvo. It is modified slightly to work with Android. The modifications are listed below:
 - `App.RangingInterval` is set to 120 to match Android config
 - `App.SlotsPerRr` is set to 6 to match Android config
 - `App.HoppingMode` is set to 1 to match Android config
