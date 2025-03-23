@@ -191,13 +191,13 @@ def main():
         "--mac",
         type=str,
         help="set the DEVICE_MAC_ADDRESS value.\n"
-        "default: 0x0 if controlee else 0x1.",
+        "default: 0x1 if controlee else 0x0.",
     )
     parser.add_argument(
         "--dest-mac",
         type=str,
         help="set the DST_MAC_ADDRESS value which is a list.\n"
-        "default: [0x1] if controlee or [0x0].",
+        "default: [0x0] if controlee else [0x1].",
     )
     parser.add_argument(
         "--frame",
