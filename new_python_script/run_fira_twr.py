@@ -157,7 +157,7 @@ def main():
     parser.add_argument(
         "--ranging-span",
         type=int,
-        default=200,
+        default=120,
         help="set the RANGING_DURATION param. (default: %(default)s)\n"
         "(previously RANGING_INTERVAL)",
     )
@@ -191,13 +191,15 @@ def main():
         "--mac",
         type=str,
         help="set the DEVICE_MAC_ADDRESS value.\n"
-        "default: 0x1 if controlee else 0x0.",
+        "default: 0x1 if controlee else 0x0.\n"
+        "You can also specify the Android style MAC e.g. AB:01",
     )
     parser.add_argument(
         "--dest-mac",
         type=str,
         help="set the DST_MAC_ADDRESS value which is a list.\n"
-        "default: [0x0] if controlee else [0x1].",
+        "default: [0x0] if controlee else [0x1].\n"
+        "You can also specify a single Android style MAC e.g. AB:01",
     )
     parser.add_argument(
         "--frame",
@@ -215,7 +217,7 @@ def main():
     parser.add_argument(
         "--en-rssi",
         action="store_true",
-        default=False,
+        default=True,
         help="set the RSSI_REPORTING value to 1. (default: %(default)s)",
     )
     parser.add_argument(
@@ -272,7 +274,7 @@ def main():
     parser.add_argument(
         "--preamble-idx",
         type=int,
-        default=10,
+        default=9,
         help="set the PREAMBLE_CODE_INDEX value. (default: %(default)s)",
     )
     parser.add_argument(
@@ -284,13 +286,13 @@ def main():
     parser.add_argument(
         "--slots-per-rr",
         type=int,
-        default=25,
+        default=6,
         help="set the SLOTS_PER_RR value (number of slots in a ranging round). (default: %(default)s)",
     )
     parser.add_argument(
         "--hopping-mode",
         choices=["disabled", "enabled"],
-        default="disabled",
+        default="enabled",
         help="set the HOPPING_MODE value. (default: %(default)s)",
     )
 
@@ -324,10 +326,10 @@ def main():
         static_sts=0x060504030201,  # STATIC_STS_IV
         aoa_report="all-enabled",  # AOA_RESULT_REQ
         init_time=0,  # UWB_INITIATION_TIME
-        preamble_idx=10,  # PREAMBLE_CODE_INDEX
+        preamble_idx=9,  # PREAMBLE_CODE_INDEX
         sfd=2,  # SFD_ID
-        slots_per_rr=25,  # SLOTS_PER_RR
-        hopping_mode="disabled",  # HOPPING_MODE
+        slots_per_rr=6,  # SLOTS_PER_RR
+        hopping_mode="enabled",  # HOPPING_MODE
         sts="static",  # STS_CONFIG
         n_controlees=1,  # NUMBER_OF_CONTROLEES
         dest_mac="[0x0]" if opts.controlee else "[0x1]",  # DEST_MAC-ADDRESS
@@ -382,8 +384,6 @@ def main():
         )
         for p in (
             "session",
-            "mac",
-            "dest_mac",
             "ssession",
             "diag_fields",
             "round",
@@ -408,6 +408,16 @@ def main():
                         f"'{getattr(args,p)}'  expected to be a 16 or 32 bytes {p} value. Quitting."
                     )
                 setattr(args, p, binascii.unhexlify(getattr(args, p)))
+        if hasattr(args, "mac"):
+            if ":" in getattr(args, "mac"):
+                setattr(args, "mac", int(getattr(args, "mac")[-2:] + getattr(args, "mac")[0:2], 16))
+            else:
+                setattr(args, "mac", eval(getattr(args, "mac").replace("-", "_"), user_mapping))
+        if hasattr(args, "dest_mac"):
+            if ":" in getattr(args, "dest_mac"):
+                setattr(args, "dest_mac", [int(getattr(args, "dest_mac")[-2:] + getattr(args, "dest_mac")[0:2], 16)])
+            else:
+                setattr(args, "dest_mac", eval(getattr(args, "dest_mac").replace("-", "_"), user_mapping))
 
     except Exception as e:
         print(f'Error while handling user input "{p}":\n{e}')
