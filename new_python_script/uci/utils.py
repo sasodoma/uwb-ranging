@@ -65,6 +65,7 @@ class DynEnum(Enum):
                 cls._member_names_.append(k)
                 cls._member_map_[k] = v
                 cls._value2member_map_[v.value] = v
+                type.__setattr__(cls, k, v)
         else:
             for k, v in values.items():
                 if k in cls._member_names_:
@@ -74,6 +75,7 @@ class DynEnum(Enum):
                 cls._member_names_.append(k)
                 cls._member_map_[k] = v
                 cls._value2member_map_[v] = k
+                type.__setattr__(cls, k, v)
 
 
 class ExtendableClass:
